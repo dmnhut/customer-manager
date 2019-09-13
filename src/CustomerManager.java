@@ -1,5 +1,3 @@
-package com;
-
 import java.io.*;
 import java.util.Scanner;
 
@@ -135,7 +133,7 @@ public class CustomerManager {
                     Customer.revenue = data.readLong();
                     if (Customer.id.compareTo(id) == 0) {
                         System.out.println(Customer.id + " -- " + Customer.name + " -- " + Customer.address + " -- " + Customer.revenue);
-                        System.out.println("=================================================================================>");
+                        System.out.println("==================================================================================>");
                         System.out.println("Update customer (U) | Delete customer (D) | Main menu (E)");
                         goTo(scan.nextLine().trim().toUpperCase());
                     }
