@@ -217,7 +217,7 @@ public class CustomerManager {
             oldData.delete();
             File newData = new File(FILE_TEMP);
             newData.renameTo(oldData);
-            System.out.println("Deleted customer with id = " + Customer.id);
+            System.out.println("Deleted customer with id = " + id);
             goTo("F");
         } catch (IOException ie) {
             System.out.println(ie);
