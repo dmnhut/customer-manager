@@ -179,7 +179,7 @@ public class CustomerManager {
             File fileOld = new File(FILE_NAME);
             fileOld.delete();
             File fileNew = new File(FILE_TEMP);
-            fileNew.renameTo(oldData);
+            fileNew.renameTo(fileOld);
             findView(id);
         } catch (IOException ie) {
             System.out.println(ie);
@@ -216,7 +216,7 @@ public class CustomerManager {
             File fileOld = new File(FILE_NAME);
             fileOld.delete();
             File fileNew = new File(FILE_TEMP);
-            fileNew.renameTo(oldData);
+            fileNew.renameTo(fileOld);
             System.out.println("Deleted customer with id = " + id);
             go("F");
         } catch (IOException ie) {
