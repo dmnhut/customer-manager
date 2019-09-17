@@ -2,14 +2,15 @@ import java.io.*;
 import java.util.Scanner;
 
 public class CustomerManager {
-    private static final String FILE_NAME = "/home/data/customer.db";
-    private static final String FILE_TEMP = "/home/data/customer_temp.db";
+    private static final int MAX_DISPLAY = 5;
+    private static final String FILE_NAME = "/home/sub/customer.db";
+    private static final String FILE_TEMP = "/home/sub/customer_temp.db";
 
     public static void main(String[] __) {
         mainMenu();
     }
 
-    public static void goTo(String key) {
+    public static void go(String key) {
         Scanner scan = new Scanner(System.in);
         switch (key.trim().toUpperCase()) {
             case "E":
@@ -53,7 +54,7 @@ public class CustomerManager {
         System.out.println("<=================================================================================");
         System.out.println("Add new customer (C) | Shown list customer (L) | Find customer by id (F) | Exit (Q)");
         System.out.println("==================================================================================>");
-        goTo(scan.nextLine());
+        go(scan.nextLine());
     }
 
     public static void createView() {
@@ -82,7 +83,7 @@ public class CustomerManager {
         System.out.println("==================================================================================>");
         System.out.println("Add new customer (C) | Main menu (E)");
         scan = new Scanner(System.in);
-        goTo(scan.nextLine());
+        go(scan.nextLine());
     }
 
     public static void listView() {
@@ -97,12 +98,12 @@ public class CustomerManager {
                 Customer.revenue = data.readLong();
                 System.out.println(Customer.id + " -- " + Customer.name + " -- " + Customer.address + " -- " + Customer.revenue);
                 count++;
-                if (count == 5 && data.available() != 0) {
+                if (data.available() != 0 && count == MAX_DISPLAY) {
                     count = 0;
                     System.out.print("Enter to print next item ...");
                     if (scan.nextLine().trim().compareTo("") != 0) {
+                        data.close();
                         mainMenu();
-                        break;
                     }
                 }
             }
@@ -124,7 +125,8 @@ public class CustomerManager {
                 try {
                     if (data.available() == 0) {
                         System.out.println("Not find customer with id = " + id);
-                        goTo("E");
+                        data.close();
+                        go("E");
                         break;
                     }
                     Customer.id = data.readUTF();
@@ -135,7 +137,7 @@ public class CustomerManager {
                         System.out.println(Customer.id + " -- " + Customer.name + " -- " + Customer.address + " -- " + Customer.revenue);
                         System.out.println("==================================================================================>");
                         System.out.println("Update customer (U) | Delete customer (D) | Main menu (E)");
-                        goTo(scan.nextLine().trim().toUpperCase());
+                        go(scan.nextLine().trim().toUpperCase());
                     }
                 } catch (IOException ie) {
                     System.out.println(ie);
@@ -174,10 +176,10 @@ public class CustomerManager {
             }
             dataInput.close();
             dataOutput.close();
-            File oldData = new File(FILE_NAME);
-            oldData.delete();
-            File newData = new File(FILE_TEMP);
-            newData.renameTo(oldData);
+            File fileOld = new File(FILE_NAME);
+            fileOld.delete();
+            File fileNew = new File(FILE_TEMP);
+            fileNew.renameTo(oldData);
             findView(id);
         } catch (IOException ie) {
             System.out.println(ie);
@@ -211,12 +213,12 @@ public class CustomerManager {
             }
             dataInput.close();
             dataOutput.close();
-            File oldData = new File(FILE_NAME);
-            oldData.delete();
-            File newData = new File(FILE_TEMP);
-            newData.renameTo(oldData);
+            File fileOld = new File(FILE_NAME);
+            fileOld.delete();
+            File fileNew = new File(FILE_TEMP);
+            fileNew.renameTo(oldData);
             System.out.println("Deleted customer with id = " + id);
-            goTo("F");
+            go("F");
         } catch (IOException ie) {
             System.out.println(ie);
         }
